@@ -11,6 +11,7 @@ export const MyBudgetTracker = () => {
       <div className="row mt-3">
         <div className="col-sm">
           <Budget />
+          
         </div>
         <div className="col-sm">
           <Remaining />

@@ -4,13 +4,13 @@ const AddExpenseForm = () => {
   const context = useContext(AppContext);
 
   const initialExpense = {
-    id: "-1",
+    id: "0",
     name: "",
     cost: 0
   }
   const [newExpense, setNewExpense] = useState(initialExpense);
 
-  const [idCounter, setIdCounter] = useState(0);
+  const [idCounter, setIdCounter] = useState(1);
   const incrementId = () => {
     setIdCounter(idCounter => idCounter + 1);
   }
@@ -18,8 +18,9 @@ const AddExpenseForm = () => {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setNewExpense({... newExpense, id: String(idCounter)});
-    incrementId();
     context.setExpenses([...context.expenses, newExpense])
+    console.log(`created expense - id: ${newExpense.id} name: ${newExpense.name} cost: ${newExpense.cost}`);
+    incrementId();
   };
 
   return (
@@ -44,7 +45,7 @@ const AddExpenseForm = () => {
             className="form-control"
             id="cost"
             defaultValue={0}
-            onChange={(event) => setNewExpense({... newExpense, cost: Number(event.target.value)})}
+            onChange={(event) => setNewExpense({... newExpense, cost: Number(event.target.value) < 0 ? 0 : Number(event.target.value)})}
           ></input>
         </div>
         <div className="col-sm">
