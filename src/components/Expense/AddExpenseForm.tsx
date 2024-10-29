@@ -17,6 +17,11 @@ const AddExpenseForm = () => {
   
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (newExpense.name == "") {
+      return;
+    }
+
     setNewExpense({... newExpense, id: String(idCounter)});
     context.setExpenses([...context.expenses, newExpense])
     console.log(`created expense - id: ${newExpense.id} name: ${newExpense.name} cost: ${newExpense.cost}`);

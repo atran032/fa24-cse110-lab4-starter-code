@@ -27,6 +27,7 @@ const Budget = () => {
       onClick={handleClick}>
       {isEditing ? 
         <input
+          placeholder="budgetInput"
           type="number"
           value={budget}
           onChange={handleSetBudget}
