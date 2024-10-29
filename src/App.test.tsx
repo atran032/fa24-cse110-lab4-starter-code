@@ -18,7 +18,7 @@ describe("Expense Creation", () => {
     fireEvent.change(screen.getByLabelText("Cost"), { target: { value: 100 } });
     fireEvent.click(screen.getByText("Save"));
 
-    expect(within(screen.getByTestId(`expense-0`)).getByText("new expense")).not.toBeInTheDocument();
+    expect(within(screen.getByTestId(`expense-0`)).getByText("new expense")).toBeInTheDocument();
     expect(within(screen.getByTestId(`expense-0`)).getByText("$100")).toBeInTheDocument();
   });
 
