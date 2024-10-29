@@ -4,7 +4,7 @@ import App from "./App";
 test("render", async () => {
   render(<App />);
 
-  expect(screen.queryByTestId(`expense-0`)).not.toBeInTheDocument();
+  expect(screen.queryByTestId(`expense-0`)).toBeInTheDocument();
   expect(screen.getByText("Budget: $1000")).toBeInTheDocument();
   expect(screen.getByText("Remaining: $1000")).toBeInTheDocument();
   expect(screen.getByText("Spent so far: $0")).toBeInTheDocument();
