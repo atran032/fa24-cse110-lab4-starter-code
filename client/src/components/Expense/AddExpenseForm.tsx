@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { AppContext } from "../../context/AppContext";
+import { createExpense } from "../../utils/expense-utils";
 const AddExpenseForm = () => {
   const context = useContext(AppContext);
 
@@ -23,6 +24,7 @@ const AddExpenseForm = () => {
     }
 
     setNewExpense({... newExpense, id: String(idCounter)});
+    createExpense(newExpense);
     context.setExpenses([...context.expenses, newExpense])
     console.log(`created expense - id: ${newExpense.id} name: ${newExpense.name} cost: ${newExpense.cost}`);
     incrementId();
