@@ -2,7 +2,7 @@ import ExpenseItem from "./ExpenseItem";
 import { AppContext } from "../../context/AppContext";
 import { useContext, useEffect } from "react";
 import { Expense } from "../../types/types";
-import { fetchExpenses } from "../../utils/expense-utils";
+import { fetchExpenses, setExpenses } from "../../utils/expense-utils";
 
 const ExpenseList = () => {
   const { expenses } = useContext(AppContext);
@@ -16,7 +16,7 @@ const ExpenseList = () => {
     const loadExpenses = async () => {
     try {
       const expenseList = await fetchExpenses();
-      fetchExpenses(expenseList);
+      setExpenses(expenseList);
     } catch (err: any) {
       console.log(err.message);
     }
@@ -25,7 +25,7 @@ const ExpenseList = () => {
   return (
     <ul className="list-group">
       {expenses.map((expense: Expense) => (
-        <ExpenseItem key={expense.id} id={expense.id} name={expense.name} cost={expense.cost} />
+        <ExpenseItem key={expense.id} id={expense.id} description={expense.description} cost={expense.cost} />
       ))}
     </ul>
   );
