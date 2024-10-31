@@ -5,13 +5,13 @@ const AddExpenseForm = () => {
   const context = useContext(AppContext);
 
   const initialExpense = {
-    id: "0",
+    id: "3",
     description: "",
     cost: 0
   }
   const [newExpense, setNewExpense] = useState(initialExpense);
 
-  const [idCounter, setIdCounter] = useState(1);
+  const [idCounter, setIdCounter] = useState(4);
   const incrementId = () => {
     setIdCounter(idCounter => idCounter + 1);
   }
