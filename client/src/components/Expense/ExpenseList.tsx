@@ -2,15 +2,15 @@ import ExpenseItem from "./ExpenseItem";
 import { AppContext } from "../../context/AppContext";
 import { useContext, useEffect } from "react";
 import { Expense } from "../../types/types";
-import { fetchExpenses, setExpenses } from "../../utils/expense-utils";
+import { fetchExpenses } from "../../utils/expense-utils";
 
 const ExpenseList = () => {
-  const { expenses } = useContext(AppContext);
+  const { expenses, setExpenses } = useContext(AppContext);
 
   // Fetch expenses on component mount
   useEffect(() => {
     loadExpenses();
-    }, []);
+  }, []);
   
     // Function to load expenses and handle errors
     const loadExpenses = async () => {

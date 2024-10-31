@@ -43,26 +43,3 @@ export const fetchExpenses = async (): Promise<Expense[]> => {
 	console.log("response in fetchExpenses", expenseList);
 	return expenseList;
 };
-
-// Function to update an expense in the backend. Method: PUT
-export const setExpense = async (expense: Expense): Promise<Expense> => {
-  	const response = await fetch(`${API_BASE_URL}/expenses/${expense.id}`, {
-    	method: "PUT",
-    	headers: {
-    		"Content-Type": "application/json",
-    	},
-    	body: JSON.stringify(expense),
-  	});
-
-  	if (!response.ok) {
- 	    throw new Error("Failed to update expense");
- 	}
-
-	return response.json();
-};
-
-export const setExpenses = async (expenses: Expense[]) => {
-  for (let i = 0; i < expenses.length; i++) {
-	setExpense(expenses[i]);
-  }
-};
