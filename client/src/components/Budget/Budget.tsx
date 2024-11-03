@@ -1,17 +1,15 @@
 import { useContext, useState, useRef, useEffect } from "react";
 import { AppContext } from "../../context/AppContext";
-import { fetchBudget } from "../../utils/budget-utils";
+import { fetchBudget, updateBudget } from "../../utils/budget-utils";
 
 const Budget = () => {
   const { budget, setBudget } = useContext(AppContext);
   const [isEditing, setIsEditing] = useState(false);
 
-  // Fetch expenses on component mount
   useEffect(() => {
     loadBudget();
     }, []);
   
-    // Function to load expenses and handle errors
     const loadBudget = async () => {
     try {
       const budget = await fetchBudget();
@@ -22,7 +20,9 @@ const Budget = () => {
     };
 
   const handleSetBudget = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setBudget(Number(event.target.value) < 0 ? 0 : Number(event.target.value));
+    const newBudget = Number(event.target.value) < 0 ? 0 : Number(event.target.value)
+    setBudget(newBudget);
+    updateBudget(newBudget);
   };
 
   const handleBlur = () => {
