@@ -7,24 +7,36 @@ const Budget = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
+    console.log(`use effect budget`);
     loadBudget();
     }, []);
   
     const loadBudget = async () => {
-    try {
-      const budget = await fetchBudget();
-      setBudget(budget);
-    } catch (err: any) {
-      console.log(err.message);
-    }
+      try {
+        console.log(`loading budget`);
+        const newBudget = await fetchBudget();
+        console.log(`budget fetched: ${newBudget}`);
+        setBudget(newBudget);
+        console.log(`budget now: ${budget}`);
+      } catch (err: any) {
+        console.log(err.message);
+      }
     };
 
-  const handleSetBudget = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newBudget = Number(event.target.value) < 0 ? 0 : Number(event.target.value)
-    setBudget(newBudget);
-    updateBudget(newBudget);
-  };
-
+    const handleSetBudget = async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const newBudget = Number(event.target.value) < 0 ? 0 : Number(event.target.value);
+      
+      // Update the context immediately to show changes in the UI
+      setBudget(newBudget);
+    
+      // Await the server update and re-set the budget context with the latest data
+      try {
+        const updatedBudget = await updateBudget(newBudget);
+        setBudget(updatedBudget);
+      } catch (err) {
+        console.error("Failed to update budget on the server:", err);
+      }
+    };
   const handleBlur = () => {
     setIsEditing(false);
   };

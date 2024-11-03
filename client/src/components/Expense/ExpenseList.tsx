@@ -14,12 +14,13 @@ const ExpenseList = () => {
   
     // Function to load expenses and handle errors
     const loadExpenses = async () => {
-    try {
-      const expenseList = await fetchExpenses();
-      setExpenses(expenseList);
-    } catch (err: any) {
-      console.log(err.message);
-    }
+      try {
+        const expenseList = await fetchExpenses();
+        setExpenses(expenseList);
+        console.log(`expenses set`)
+      } catch (err: any) {
+        console.log(err.message);
+      }
     };
 
   return (
