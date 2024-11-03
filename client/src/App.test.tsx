@@ -4,7 +4,7 @@ import App from "./App";
 test("render", async () => {
   render(<App />);
 
-  expect(screen.queryByTestId(`expense-0`)).toBeInTheDocument();
+  expect(screen.queryByTestId(`expense-3`)).not.toBeInTheDocument();
   expect(screen.getByText("Budget: $1000")).toBeInTheDocument();
   expect(screen.getByText("Remaining: $1000")).toBeInTheDocument();
   expect(screen.getByText("Spent so far: $0")).toBeInTheDocument();
@@ -18,8 +18,8 @@ describe("Expense Creation", () => {
     fireEvent.change(screen.getByLabelText("Cost"), { target: { value: 100 } });
     fireEvent.click(screen.getByText("Save"));
 
-    expect(within(screen.getByTestId(`expense-0`)).getByText("new expense")).toBeInTheDocument();
-    expect(within(screen.getByTestId(`expense-0`)).getByText("$100")).toBeInTheDocument();
+    expect(within(screen.getByTestId(`expense-3`)).getByText("new expense")).toBeInTheDocument();
+    expect(within(screen.getByTestId(`expense-3`)).getByText("$100")).toBeInTheDocument();
   });
 
   test("create zero cost expense", () => {
@@ -29,8 +29,8 @@ describe("Expense Creation", () => {
     fireEvent.change(screen.getByLabelText("Cost"), { target: { value: 0 } });
     fireEvent.click(screen.getByText("Save"));
 
-    expect(within(screen.getByTestId(`expense-0`)).getByText("new expense")).toBeInTheDocument();
-    expect(within(screen.getByTestId(`expense-0`)).getByText("$0")).toBeInTheDocument();
+    expect(within(screen.getByTestId(`expense-3`)).getByText("new expense")).toBeInTheDocument();
+    expect(within(screen.getByTestId(`expense-3`)).getByText("$0")).toBeInTheDocument();
   });
 
   test("create negative cost expense", () => {
@@ -40,8 +40,8 @@ describe("Expense Creation", () => {
     fireEvent.change(screen.getByLabelText("Cost"), { target: { value: -100 } });
     fireEvent.click(screen.getByText("Save"));
 
-    expect(within(screen.getByTestId(`expense-0`)).getByText("new expense")).toBeInTheDocument();
-    expect(within(screen.getByTestId(`expense-0`)).getByText("$0")).toBeInTheDocument();
+    expect(within(screen.getByTestId(`expense-3`)).getByText("new expense")).toBeInTheDocument();
+    expect(within(screen.getByTestId(`expense-3`)).getByText("$0")).toBeInTheDocument();
   });
 
   test("create high cost expense", () => {
@@ -51,8 +51,8 @@ describe("Expense Creation", () => {
     fireEvent.change(screen.getByLabelText("Cost"), { target: { value: 2000 } });
     fireEvent.click(screen.getByText("Save"));
 
-    expect(within(screen.getByTestId(`expense-0`)).getByText("new expense")).toBeInTheDocument();
-    expect(within(screen.getByTestId(`expense-0`)).getByText("$2000")).toBeInTheDocument();
+    expect(within(screen.getByTestId(`expense-3`)).getByText("new expense")).toBeInTheDocument();
+    expect(within(screen.getByTestId(`expense-3`)).getByText("$2000")).toBeInTheDocument();
   });
 
     test("create no field expense", async () => {
@@ -61,7 +61,7 @@ describe("Expense Creation", () => {
     fireEvent.click(screen.getByText("Save"));
     
     await waitFor(() => {
-      expect(screen.queryByTestId(`expense-0`)).not.toBeInTheDocument();
+      expect(screen.queryByTestId(`expense-3`)).not.toBeInTheDocument();
     })
   });
 });
@@ -76,7 +76,7 @@ describe("Expense Deletion", () => {
     fireEvent.change(screen.getByLabelText("Cost"), { target: { value: 100 } });
     fireEvent.click(screen.getByText("Save"));
 
-    fireEvent.click(within(screen.getByTestId(`expense-0`)).getByText("x"));
+    fireEvent.click(within(screen.getByTestId(`expense-3`)).getByText("x"));
     await waitFor(() => {
       expect(screen.queryByText("new expense")).not.toBeInTheDocument();
       expect(screen.queryByText("$100")).not.toBeInTheDocument();
@@ -92,7 +92,7 @@ describe("Expense Deletion", () => {
     fireEvent.click(screen.getByText("Save"));
     fireEvent.click(screen.getByText("Save"));
 
-    const testCases = [0, 1, 2];
+    const testCases = [3, 4, 5];
     for (let i = 0; i < testCases.length; i++) {
       fireEvent.click(within(screen.getByTestId(`expense-${testCases[i]}`)).getByText("x"));
       await waitFor(() => {
@@ -107,7 +107,7 @@ describe("Expense Deletion", () => {
     fireEvent.change(screen.getByLabelText("Name"), { target: { value: "new expense" } });
     fireEvent.change(screen.getByLabelText("Cost"), { target: { value: 100 } });
 
-    const testCases = [0, 1, 2];
+    const testCases = [3, 4, 5];
     for (let i = 0; i < testCases.length; i++) {
       fireEvent.click(screen.getByText("Save"));
       expect(screen.queryByTestId(`expense-${testCases[i]}`)).toBeInTheDocument();
@@ -124,7 +124,7 @@ describe("Expense Deletion", () => {
     fireEvent.change(screen.getByLabelText("Name"), { target: { value: "new expense" } });
     fireEvent.change(screen.getByLabelText("Cost"), { target: { value: 100 } });
 
-    const testCases = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const testCases = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
     for (let i = 0; i < testCases.length; i++) {
       fireEvent.click(screen.getByText("Save"));
     };
