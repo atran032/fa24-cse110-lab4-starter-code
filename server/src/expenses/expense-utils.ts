@@ -1,22 +1,27 @@
+import { Database } from "sqlite3";
 import { Expense } from "../types";
 import { Request, Response } from "express";
 
-export function createExpenseServer(req: Request, res: Response, expenses: Expense[]) {
-    const { id, cost, description } = req.body;
+export async function createExpenseServer(req: Request, res: Response, db: Database) {
 
-    if (!description || !id || !cost) {
-        return res.status(400).send({ error: "Missing required fields" });
-    }
-
-    const newExpense: Expense = {
-        id: id,
-        description,
-        cost,
+    try {
+        // Type casting the request body to the expected format.
+        const { id, cost, description } = req.body as { id: string, cost: number, description: string };
+ 
+        if (!description || !id || !cost) {
+            return res.status(400).send({ error: "Missing required fields" });
+        }
+ 
+        await db.run('INSERT INTO expenses (id, description, cost) VALUES (?, ?, ?);', [id, description, cost]);
+        res.status(201).send({ id, description, cost });
+ 
+    } catch (error) {
+ 
+        return res.status(400).send({ error: `Expense could not be created, + ${error}` });
     };
-
-    expenses.push(newExpense);
-    res.status(201).send(newExpense);
-}
+ 
+ }
+ 
 
 export function deleteExpense(req: Request, res: Response, expenses: Expense[]) {
     const { id } = req.params; // Extract the ID from request parameters
@@ -36,6 +41,19 @@ export function deleteExpense(req: Request, res: Response, expenses: Expense[]) 
     res.status(204).send();
 }
 
-export function getExpenses(req: Request, res: Response, expenses: Expense[]) {
-    res.status(200).send({ "data": expenses });
+export async function getExpenses(req: Request, res: Response, db: Database) {
+    
+    try {
+        // Query all expenses from the database
+        const expenses = await new Promise<Expense[]>((resolve, reject) => {
+            db.all('SELECT * FROM expenses', (err, rows) => {
+                if (err) return reject(err);
+                resolve(rows);
+            });
+        });
+
+        res.status(200).send({ data: expenses });
+    } catch (error) {
+        res.status(500).send({ error: `Failed to retrieve expenses: ${error}` });
+    }
 }
